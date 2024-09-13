@@ -1,0 +1,21 @@
+{% extends "base.html.j2" %}
+{% block main %}
+<form method="post">
+	<label for="item">Item name</label>
+	<input id="item" name="item" value="{{item.name}}" type="text">
+	<label for="desc">Description</label>
+	<input id="desc" name="desc" value="{{item.description}}" type="text">
+	<label for="cost">Cost</label>
+	<input id="cost" name="cost" value="{{item.cost[1:]|replace(',','')}}" type="number" step="0.01" min="0.00" max="1000.00">
+	<input name="update" value="Update Item" type="submit">
+</form>
+{% endblock %}
+{% block footer %}
+{% if in_stock %}
+	{{- button("cancel", url="/items") }}
+	{{- button("all", url="/items/hold/%s"|format(item.index), title="Hold", color="brown")}}
+{% else %}
+	{{- button("cancel", url="/items") }}
+	{{- button("add", url="/items/stock/%s"|format(item.index), title="Restock", color="blue")}}
+{% endif %}
+{% endblock %}
